@@ -1,0 +1,28 @@
+﻿@using web_app_asp_net_mvc_grid.Models.Attributes
+@model IEnumerable<SelectListItem>
+
+
+@{
+    var targetProperty = this.ViewData.ModelMetadata.PropertyName;
+    var targetPropertyAttribute = this.ViewData.ModelMetadata.ContainerType.GetProperty(this.ViewData.ModelMetadata.PropertyName).GetCustomAttributes(typeof(TargetPropertyAttribute), true);
+    if (targetPropertyAttribute.Any())
+    {
+        targetProperty = ((TargetPropertyAttribute)targetPropertyAttribute.First()).TargetProperty;
+    }
+}
+<ul id="@targetProperty">
+    @if (Model != null && Model.Any())
+    {
+        foreach (SelectListItem item in Model)
+        {
+            if (item.Selected == true)
+            {
+                <li><label><input type="radio" value="@item.Value " name="@targetProperty" checked="checked" />@item.Text </label></li>
+            }
+            else
+            {
+                <li><label><input type="radio" value="@item.Value " name="@targetProperty" />@item.Text </label></li>
+            }
+        }
+    }
+</ul>

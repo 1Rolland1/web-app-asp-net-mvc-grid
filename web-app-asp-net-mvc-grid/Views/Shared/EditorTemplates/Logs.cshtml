@@ -1,0 +1,17 @@
+﻿@model List<web_app_asp_net_mvc_grid.Models.ImportDisciplineRowLog>
+
+<table class="table table-hover table-bordered align-middle">
+    <tr>
+        <td>№п/п</td>
+        <td>Статус</td>
+        <td>Сообщение</td>
+    </tr>
+    @foreach (var value in Model)
+    {
+        <tr>
+            <td>@value.Id</td>
+            <td>@value.Type</td>
+            <td>@value.Message</td>
+        </tr>
+    }
+</table>

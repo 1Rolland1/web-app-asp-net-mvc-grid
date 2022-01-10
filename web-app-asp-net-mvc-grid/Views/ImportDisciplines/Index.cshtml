@@ -1,0 +1,16 @@
+﻿@using web_app_asp_net_mvc_grid.Models
+@model ImportDisciplineViewModel
+
+<br>
+<h1><b>Импорт дисциплин</b></h1>
+<br>
+
+@using (Html.BeginForm("Import", "ImportDisciplines", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+@Html.EditorForModel()
+
+                @Html.ActionLink("Пример файла", "GetExample", null, new { @class = "btn btn-secondary" })
+                                <input type="submit" value="Сохранить" class="btn btn-secondary" />
+                @Html.ActionLink("Отменить", "Index", "Disciplines", null, new { @class = "btn btn-danger" })
+}
+

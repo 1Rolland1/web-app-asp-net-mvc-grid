@@ -1,0 +1,44 @@
+﻿@using web_app_asp_net_mvc_grid.Models.Attributes
+
+@{
+    var controllerContext = new ControllerContext(ViewContext.RequestContext, ViewContext.Controller);
+}
+<dl class="form">
+    @foreach (var prop in ViewData.ModelMetadata.Properties.Where(pm => pm.ShowForEdit && !ViewData.TemplateInfo.Visited(pm)))
+    {
+        if (prop.HideSurroundingHtml)
+        {
+            @Html.Editor(prop.PropertyName)
+        }
+        else
+        {
+            if (!string.IsNullOrEmpty(prop.GetDisplayName()))
+            {
+                var propName = (prop.IsRequired) ? prop.GetDisplayName() + "*" : prop.GetDisplayName();
+                <dt><label>@propName</label></dt>
+            }
+
+            <dd>
+                @Html.Editor(prop.PropertyName, prop.TemplateHint)
+
+                @{
+                    string propertyName = prop.PropertyName;
+                    if (prop.AdditionalValues.ContainsKey("TargetPropertyAttribute"))
+                    {
+                        propertyName = (prop.AdditionalValues["TargetPropertyAttribute"] as TargetPropertyAttribute).TargetProperty;
+                    }
+
+                    var targetProp = ViewData.ModelMetadata.Properties.SingleOrDefault(p => p.PropertyName == propertyName);
+                    var validators = targetProp.GetValidators(controllerContext).ToList();
+
+                    if (validators.Any())
+                    {
+                        <em>
+                            @Html.ValidationMessage(targetProp.PropertyName)
+                        </em>
+                    }
+                }
+            </dd>
+        }
+    }
+</dl>

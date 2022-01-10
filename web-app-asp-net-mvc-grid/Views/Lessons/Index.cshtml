@@ -1,0 +1,60 @@
+﻿@using web_app_asp_net_mvc_grid.Models
+@using web_app_asp_net_mvc_grid.Extensions
+@model List<Lesson>
+
+@{
+    string controllerName = "Lessons";
+}
+<br>
+<h1><b>Расписание</b></h1>
+
+<br>
+@(Html
+    .Grid(Model)
+    .Build(columns =>
+    {
+        columns.Add(model => model.Number).Titled("Номер пары");
+        columns.Add(model => string.Format("<a href='/{0}/Detail/{1}' class='text-decoration-none'>{2}</a>", controllerName, model.Id, model.Discipline.Name)).Encoded(false).Titled("Дисциплина");
+        columns.Add(model => string.Join(", ", model.Groups.Select(x => $"{x.GroupName}"))).Titled("Группа(ы)");        
+        columns.Add(model => model.Teacher.Name).Titled("Преподаватель");
+        columns.Add(model => string.Format("<img src='/{0}/GetImage/{1}' style='max-width: 100px; max-height: 200px;' />", "Teachers", model.TeacherId)).Encoded(false).Titled("Фото преподавателя");
+        
+        if (User.IsInRole("Administrator"))
+        {
+            columns.Add(model => Html.Partial("GridCellAction", new GridCellActionViewModel() { Id = model.Id, ControllerName = controllerName })).Css("grid-cell-action").Titled("Действия");
+        }
+    })
+    .UsingFilterMode(GridFilterMode.Row)
+    .Empty("No data found")
+    .Filterable()
+    .Sortable()
+    .Pageable()
+)
+
+@if (User.IsInRole("Administrator"))
+{<div class="btn-create" style="display: flex; justify-content: flex-end;">
+        @Html.ActionLink("Добавить запись", "Create", controllerName, null, new { @class = "btn btn-outline-dark" })
+        @Html.ActionLink("XML", "GetXml", controllerName, null, new { @class = "btn btn-outline-dark", @target = "_blank", style = "margin: 0px 15px 0px 15px;" })
+        @Html.ActionLink("Excel", "GetXlsx", controllerName, null, new { @class = "btn btn-outline-dark", style = "margin: 0px 15px 0px 0px;" })
+    </div>
+    <div class="btn-create" style="display: flex; justify-content: flex-end;">
+        <a href="/ImportXmlLessons" class="btn btn-outline-dark" style="margin: 20px 15px 0px 15px;">Импорт данных XML</a>
+    </div>
+}
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<hr>
+<footer>
+    <dl>
+        <dt>Дополнительная информация:</dt>
+    </dl>
+    <ol type="I">
+        <li><h6><i>Данная работа сделана в ознакомительных целях</i></h6></li>
+        <li><h6><i>Все люди вымышлены, а совпадения случайны</i></h6></li>
+    </ol>
+
+</footer>

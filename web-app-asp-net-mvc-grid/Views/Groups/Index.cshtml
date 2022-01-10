@@ -1,0 +1,39 @@
+﻿@using web_app_asp_net_mvc_grid.Models
+@using web_app_asp_net_mvc_grid.Extensions
+@model List<Group>
+
+@{
+    string controllerName = "Groups";
+}
+
+<br>
+<h1><b>Группы</b></h1>
+<br>
+
+@(Html
+    .Grid(Model)
+    .Build(columns =>
+    {
+        columns.Add(model => model.GroupName).Titled("Группа");
+        columns.Add(model => model.NumberOfStudents).Titled("Количество студентов");        
+        columns.Add(model => string.Join(", ", model.Nationalitys.Select(x => $"{x.Name}"))).Titled("Национальность(и) студентов");
+        
+        if (User.IsInRole("Administrator"))
+        {
+            columns.Add(model => Html.Partial("GridCellAction", new GridCellActionViewModel() { Id = model.Id, ControllerName = controllerName })).Css("grid-cell-action").Titled("Действия");
+        }
+    })
+    .UsingFilterMode(GridFilterMode.Row)
+    .Empty("No data found")
+    .Filterable()
+    .Sortable()
+    .Pageable()
+)
+
+@if (User.IsInRole("Administrator"))
+{
+    <div class="btn-create">
+        @Html.ActionLink("Добавить запись", "Create", controllerName, null, new { @class = "btn btn-outline-dark" })
+        @Html.ActionLink("Excel", "GetXlsx", controllerName, null, new { @class = "btn btn-outline-dark", style = "margin: 0px 15px 0px 15px;" })
+    </div>
+}

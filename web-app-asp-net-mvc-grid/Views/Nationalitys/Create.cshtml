@@ -1,0 +1,14 @@
+﻿@using web_app_asp_net_mvc_grid.Models
+@model Nationality
+
+<fieldset>
+    <legend>Пожалуйста, заполните необходимые поля</legend>
+    @using (Html.BeginForm("Create", "Nationalitys", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+    {
+        @Html.EditorForModel()
+
+        <input type="submit" value="Сохранить" class="btn btn-secondary" />
+        @Html.ActionLink("Отменить", "Index", "Nationalitys", null, new { @class = "btn btn-danger" })
+    }
+</fieldset>
+

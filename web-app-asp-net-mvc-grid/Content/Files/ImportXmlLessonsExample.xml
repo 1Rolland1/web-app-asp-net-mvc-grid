@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<ArrayOfXmlLesson>
+  <XmlLesson>
+    <Number>1</Number>
+    <Groups>
+      <Group>
+        <Id>1</Id>
+      </Group>
+    </Groups>
+    <TeacherId>1</TeacherId>
+    <DisciplineId>1</DisciplineId>
+  </XmlLesson>
+  <XmlLesson>
+    <Number>2</Number>
+    <Groups>
+      <Group>
+        <Id>1</Id>
+      </Group>
+      <Group>
+        <Id>2</Id>
+      </Group>
+    </Groups>
+    <TeacherId>2</TeacherId>
+    <DisciplineId>1</DisciplineId>
+  </XmlLesson>
+  <XmlLesson>
+    <Number>1</Number>
+    <Groups>
+      <Group>
+        <Id>1</Id>
+      </Group>
+    </Groups>
+    <TeacherId>2</TeacherId>
+    <DisciplineId>1</DisciplineId>
+  </XmlLesson>
+</ArrayOfXmlLesson>

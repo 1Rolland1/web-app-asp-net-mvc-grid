@@ -1,0 +1,12 @@
+﻿@using web_app_asp_net_mvc_grid.Models
+@model ImportDisciplineLog
+
+<h3>Лог импорта дисциплин</h3>
+
+
+@Html.EditorForModel()
+<div class="btn-create">
+    @Html.ActionLink("На главную", "Index", "Lessons", null, new { @class = "btn btn-outline-dark" })
+    @Html.ActionLink("Назад", "Index", "Disciplines", null, new { @class = "btn btn-outline-dark" })
+    
+</div>

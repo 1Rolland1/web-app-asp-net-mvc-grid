@@ -1,0 +1,42 @@
+﻿@using web_app_asp_net_mvc_grid.Models
+@using web_app_asp_net_mvc_grid.Extensions
+@model List<Discipline>
+
+@{
+    string controllerName = "Disciplines";
+}
+<br>
+<h1><b>Дисциплины </b></h1>
+<br>
+
+@(Html
+    .Grid(Model)
+    .Build(columns =>
+    {
+        columns.Add(model => model.Name).Titled("Дисциплина");
+        columns.Add(model => model.DisciplineGoal).Titled("Цели дисциплины");
+        columns.Add(model => model.DisciplineObjectives).Titled("Задачи дисциплины");
+        columns.Add(model => model.MainSections).Titled("Разделы");
+        
+        if (User.IsInRole("Administrator"))
+        {
+            columns.Add(model => Html.Partial("GridCellAction", new GridCellActionViewModel() { Id = model.Id, ControllerName = controllerName })).Css("grid-cell-action").Titled("Действия");
+        }
+    })
+    .UsingFilterMode(GridFilterMode.Row)
+    .Empty("No data found")
+    .Filterable()
+    .Sortable()
+    .Pageable()
+)
+
+@if (User.IsInRole("Administrator"))
+{<div class="btn-create" style="display: flex; justify-content: flex-end;">
+        @Html.ActionLink("Добавить запись", "Create", controllerName, null, new { @class = "btn btn-outline-dark" })
+        @Html.ActionLink("Excel", "GetXlsx", controllerName, null, new { @class = "btn btn-outline-dark", style = "margin: 0px 0px 0px 15px;" })
+    </div>
+    <div class="btn-create" style="display: flex; justify-content: flex-end; margin: 15px 0px 0px 0px;">
+        <a href="/ImportDisciplines" class="btn btn-outline-dark">Импорт данных</a>
+    </div>
+}
+

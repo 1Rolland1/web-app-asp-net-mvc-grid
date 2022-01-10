@@ -1,0 +1,43 @@
+﻿@using web_app_asp_net_mvc_grid.Models.Attributes
+@model IEnumerable<SelectListItem>
+
+
+@{
+    var targetProperty = this.ViewData.ModelMetadata.PropertyName;
+    var targetPropertyAttribute = this.ViewData.ModelMetadata.ContainerType.GetProperty(this.ViewData.ModelMetadata.PropertyName).GetCustomAttributes(typeof(TargetPropertyAttribute), true);
+    if (targetPropertyAttribute.Any())
+    {
+        targetProperty = ((TargetPropertyAttribute)targetPropertyAttribute.First()).TargetProperty;
+    }
+
+}
+<div>
+    <ul id="@targetProperty">
+        @{
+            if (Model != null && Model.Any())
+            {
+                foreach (var option in Model)
+                {
+                    <li>
+                        <label>
+                            @if (option.Selected)
+                            {
+                                <input type="checkbox" name="@targetProperty" value="@option.Value" checked="checked" />
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="@targetProperty" value="@option.Value" />
+                            }
+                            @option.Text
+                        </label>
+                    </li>
+                }
+            }
+            else
+            {
+                <li><label>Нет элементов в списке</label></li>
+
+            }
+        }
+    </ul>
+</div>

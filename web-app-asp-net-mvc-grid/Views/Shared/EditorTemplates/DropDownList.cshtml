@@ -1,0 +1,20 @@
+﻿@using web_app_asp_net_mvc_grid.Models.Attributes
+@model IEnumerable<SelectListItem>
+
+@{
+    var targetProperty = this.ViewData.ModelMetadata.PropertyName;
+    var targetPropertyAttribute = this.ViewData.ModelMetadata.ContainerType.GetProperty(this.ViewData.ModelMetadata.PropertyName).GetCustomAttributes(typeof(TargetPropertyAttribute), true);
+    if (targetPropertyAttribute.Any())
+    {
+        targetProperty = ((TargetPropertyAttribute)targetPropertyAttribute.First()).TargetProperty;
+    }
+}
+<select id="@targetProperty" name="@targetProperty">
+    @if (Model != null)
+    {
+        foreach (SelectListItem item in Model)
+        {
+            <option value="@item.Value" @(item.Selected ? "selected" : "") @(item.Disabled ? "disabled" : "")>@item.Text </option>
+        }
+    }
+</select>

@@ -1,0 +1,16 @@
+﻿@using web_app_asp_net_mvc_grid.Models
+@model Teacher
+
+<fieldset>
+    <legend>Пожалуйста, заполните необходимые поля</legend>
+    @using (Html.BeginForm("Edit", "Teachers", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+    {
+        @Html.ValidationSummary()
+        @Html.EditorForModel()
+
+        <input type="submit" value="Сохранить" class="btn btn-secondary" />
+        @Html.ActionLink("Отменить", "Index", "Teachers", null, new { @class = "btn btn-danger" })
+    }
+    
+</fieldset>
+

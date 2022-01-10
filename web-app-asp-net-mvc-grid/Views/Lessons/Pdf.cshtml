@@ -1,0 +1,46 @@
+﻿@using web_app_asp_net_mvc_grid.Models
+@model Lesson
+
+@{
+    Layout = null;
+}
+
+<html>
+<body >
+    <table class="table table-striped" style="text-align:center">
+        <tbody>
+            <tr>
+
+                <td>
+                    <br />
+                    <h1><u>@Model.Discipline.Name</u></h1>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="3">
+                    <h3>Аннотация</h3>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <p>
+                        <span><b>Цель дисциплины</b></span>
+                        <span><pre style="width: auto; white-space: pre-wrap;">@Model.Discipline.DisciplineGoal</pre></span>
+                    </p>
+                    <p>
+                        <span><b>Задачи дисциплины</b></span>
+                        <span><pre style="width: auto; white-space: pre-wrap;">@Model.Discipline.DisciplineObjectives</pre></span>
+                    </p>
+                    <p>
+                        <span><b>Основные разделы</b></span>
+                        <span><pre style="width: auto; white-space: pre-wrap;">@Model.Discipline.MainSections</pre></span>
+                    </p>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</body>
+
+</html>

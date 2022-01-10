@@ -1,0 +1,39 @@
+﻿@using web_app_asp_net_mvc_grid.Models
+@using web_app_asp_net_mvc_grid.Extensions
+@model IQueryable<Teacher>
+
+@{
+    string controllerName = "Teachers";
+}
+<br>
+<h1><b>Преподаватели </b></h1>
+<br>
+
+
+@(Html
+    .Grid(Model)
+    .Build(columns =>
+    {
+        columns.Add(model => model.Name).Titled("Преподаватель");
+        columns.Add(model => model.Sex).Titled("Пол");
+        columns.Add(model => model.Position).Titled("Должность");
+        columns.Add(model => string.Format("<img src='/{0}/GetImage/{1}' style='max-width: 100px; max-height: 200px;' />", controllerName, model.Id)).Encoded(false).Titled("Фото преподавателя");
+        
+        if (User.IsInRole("Administrator"))
+        {
+            columns.Add(model => Html.Partial("GridCellAction", new GridCellActionViewModel() { Id = model.Id, ControllerName = controllerName })).Css("grid-cell-action").Titled("Действия");
+        }
+    })
+    .UsingFilterMode(GridFilterMode.Row)
+    .Empty("No data found")
+    .Filterable()
+    .Sortable()
+    .Pageable()
+)
+
+@if (User.IsInRole("Administrator"))
+{<div class="btn-create">
+        @Html.ActionLink("Добавить запись", "Create", controllerName, null, new { @class = "btn btn-outline-dark" })
+        @Html.ActionLink("Excel", "GetXlsx", controllerName, null, new { @class = "btn btn-outline-dark", style = "margin: 0px 15px 0px 15px;" })
+    </div>
+}
